@@ -1,6 +1,8 @@
+import { readFileSync } from "node:fs";
 import { createParser, type LibrarySpec } from "@openuidev/lang-core";
 import { describe, expect, it } from "vitest";
 import spec from "@/generated/spec.json";
+import { exampleForesight } from "@/lib/prompt-options";
 import { CARD_IDS, ICON, buildPlay, deck, getCard, isComplete, missingInputs } from "./play";
 
 const library = spec as LibrarySpec;
@@ -20,6 +22,19 @@ describe("ForesightCard in the generated spec", () => {
   it("parses a program that places a card", () => {
     expect(parse(`root = Col([intro, card])\nintro = Text("Próxima carta:")\ncard = ForesightCard("darpa", ["vision"])`))
       .toEqual({ root: true, errors: [], unresolved: [], orphaned: [] });
+  });
+
+  it("parses the prompt example", () => {
+    expect(parse(exampleForesight)).toEqual({ root: true, errors: [], unresolved: [], orphaned: [] });
+  });
+
+  it("is in both generated system prompts with its rule (run npm run prompt after changes)", () => {
+    for (const f of ["system-prompt.txt", "dashboard-system-prompt.txt"]) {
+      const text = readFileSync(new URL(`../../generated/${f}`, import.meta.url), "utf8");
+      expect(text, f).toContain("ForesightCard(card:");
+      expect(text, f).toContain("foresight-play/v1");
+      for (const id of CARD_IDS) expect(text, f).toContain(`${id} (`);
+    }
   });
 });
 

@@ -1,5 +1,6 @@
 import type { PromptOptions } from "@openuidev/react-lang";
 import { demoToolSpecs } from "./demo-data";
+import { deck } from "./foresight/play";
 
 /**
  * Prompt options that teach the model to answer with working tools: the page
@@ -49,6 +50,17 @@ weekly = Card([Title("Revenue by week", "sm"), Chart("line", @Bucket(rows, "date
 byRegion = Card([Title("By region", "sm"), Chart("donut", @GroupBy(orders.rows, "region", "amount"), "key", ["value"], "currency")])
 top = Table(["Product", "Revenue"], @Each(@Top(@GroupBy(rows, "product", "amount"), "value", 5), "p", [p.key, @Format(p.value, "currency")]))`;
 
+export const exampleForesight = `root = Col([title, intro, Grid([a, b], 2, 280, 4)])
+title = Title("Avaliar o cenário: IA local no prontuário", "lg")
+intro = Text("O **tema** já está definido. Duas cartas foram liberadas por ele; o Mapa de Contexto abre os Pontos Brancos e a Curva de Progressão abre os Cones de Janus.", "sm", "muted")
+a = ForesightCard("context-map", ["topic"])
+b = ForesightCard("progression", ["topic"])`;
+
+/** One line per card, built from deck.json so the prompt never drifts from the contract. */
+const foresightOrder = deck.cards
+  .map((c) => `${c.id} (${c.requires.length ? "needs " + c.requires.join(", ") : "needs nothing"}; makes ${c.produces})`)
+  .join("; ");
+
 const rules = [
   "Compose the answer like a page, not a form letter: a Title, a short Text, then a mix of blocks that show the content. SearchImage for every place, dish, product or thing that has a look (the app finds the photo, so never say you cannot show photos); Row, Grid and Carousel to set things side by side; Badge rows for quick facts; Card only to group a block; Popover for an aside.",
   "Spacing is a system with three tiers that always nest: inner (gap 1-2, 4-8px) for a title with its subtitle, tags or line; group (gap 3-4, 12-16px) between blocks inside a Card or grid cell; section (24px) between the blocks of the page. Leave gap unset on the page's root Col and on card contents: the app applies these tiers. Set a gap only on a Row or Grid. Never use one gap for everything, and never a gap larger than the section gap.",
@@ -68,6 +80,7 @@ const rules = [
   "To change a page from an earlier answer, keep its $variable names and start them from that answer's \"context and form values\", so what the user typed, added or ticked carries over.",
   "Read a number input for a count or amount through @Default and @Clamp with a sensible minimum, e.g. @Clamp(@Default($people, 1), 1, 50), so 0, empty or negative cannot divide by zero or zero out the page.",
   "Answer a plain knowledge or safety question with Markdown text, adding a SearchImage or a Quote only where it helps.",
+  `When the user wants to explore or evaluate an innovation or technology scenario, or a message carries a foresight-play/v1 context, answer with the next ForesightCard to play: one or two cards whose needs are all met, a Title naming the scenario and one short Text on why these cards come next. Pass in have every artifact type already made in this conversation (the produces field of each foresight-play/v1 context so far). Start with origem when nothing is made yet. Never rebuild a card's fields with Input or Form. Cards and their contracts: ${foresightOrder}.`,
 ];
 
 /** The chat prompt: no tools, $variables and functions. */
@@ -78,6 +91,7 @@ export const promptOptions: PromptOptions = {
     `Example 1: A guest stepper that rescales a shopping list, with a checklist and a copy button:\n\n${exampleShoppingList}`,
     `Example 2: A composed trip answer: photos, facts, day rows and a short form:\n\n${exampleTrip}`,
     `Example 3: Step-by-step instructions with a drawing for each step, driven by $step:\n\n${exampleSteps}`,
+    `Example 4: The next foresight cards after the topic is made:\n\n${exampleForesight}`,
   ],
 };
 
@@ -85,7 +99,7 @@ export const promptOptions: PromptOptions = {
 export const dashboardPromptOptions: PromptOptions = {
   ...promptOptions,
   tools: demoToolSpecs,
-  toolExamples: [`Example 4: A live dashboard over Query rows:\n\n${exampleDashboard}`],
+  toolExamples: [`Example 5: A live dashboard over Query rows:\n\n${exampleDashboard}`],
   additionalRules: [
     ...rules,
     "Fetch rows with Query and compute every number, group and series from them with @Sum, @Count, @GroupBy, @Bucket, @Top, @Stats and @Change. A filter is a $variable (from this library's Select or SegmentedControl) applied with @Filter; select dates and ranges with @Between, since @Filter's < and > compare numbers only.",
