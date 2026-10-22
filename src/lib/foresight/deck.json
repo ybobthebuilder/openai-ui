@@ -1,0 +1,219 @@
+{
+  "schema": "foresight-deck/v1",
+  "version": "0.1.0",
+  "source": "Carleton, Cockayne & Tahvanainen (2013), Playbook for Strategic Foresight and Innovation, CC BY-NC-SA 3.0",
+  "suits": {
+    "contexto": "Contexto",
+    "usuario": "Usuário",
+    "oportunidade": "Oportunidade",
+    "acao": "Time e ação",
+    "sintese": "Síntese"
+  },
+  "types": {
+    "topic": "tema", "dimensions": "8 dimensões", "curve": "curva", "cones": "cones",
+    "cohorts": "gerações", "persona": "persona", "scene": "cena", "matrix": "matriz 2×2",
+    "vision": "visão", "mockup": "maquete", "darpa": "placar DARPA", "path": "caminho",
+    "network": "rede", "team": "liderança", "buddies": "parceiros", "eval": "avaliação"
+  },
+  "scale4": [
+    { "v": 0, "l": "não" }, { "v": 1, "l": "fraco" }, { "v": 2, "l": "sim" }, { "v": 3, "l": "forte" }
+  ],
+  "promptFrame": "Você é um analista de foresight revisando o trabalho de uma comunidade. Use apenas os artefatos abaixo como contexto. Marque com [especulação] tudo que não decorre diretamente deles. Responda em português, em lista curta.",
+  "cards": [
+    {
+      "id": "origem", "name": "Ponto de Partida", "suit": "contexto", "glyph": "origin", "xp": 50,
+      "page": 38, "requires": [], "produces": "topic",
+      "pitch": "Escolha de onde a ideia vem e fixe o tema.",
+      "steps": [
+        { "id": "start", "type": "choice", "label": "De onde parte o time?", "options": ["Organizacional", "Interno", "Externo"],
+          "help": "Organizacional: já existe estratégia. Interno: interesse ou expertise do time. Externo: sinais de fora." },
+        { "id": "topic", "type": "text", "label": "Escreva o tema em uma linha", "help": "Escopo amplo é aceitável. Você vai iterar." },
+        { "id": "sources", "type": "list", "n": 3, "label": "Liste 3 fontes de inspiração", "help": "Estatística, histórico, cenário futuro ou nicho (early adopters, sinais fracos)." }
+      ],
+      "task": "Avalie se o tema é amplo demais para um primeiro mapa e sugira 2 recortes."
+    },
+    {
+      "id": "context-map", "name": "Mapa de Contexto", "suit": "contexto", "glyph": "context", "xp": 80,
+      "page": 61, "requires": ["topic"], "produces": "dimensions",
+      "pitch": "Converja nos 8 temas centrais do problema.",
+      "steps": [
+        { "id": "dims", "type": "list", "n": 8, "label": "Nomeie 8 dimensões, uma por pétala", "help": "Discordância intensa é sinal de dimensão importante." },
+        { "id": "hot", "type": "text", "label": "Qual dimensão gerou mais discussão?" },
+        { "id": "unknown", "type": "text", "label": "Qual gerou perguntas sem resposta hoje?" }
+      ],
+      "task": "Aponte dimensões redundantes e uma dimensão ausente."
+    },
+    {
+      "id": "progression", "name": "Curva de Progressão", "suit": "contexto", "glyph": "curve", "xp": 80,
+      "page": 70, "requires": ["topic"], "produces": "curve",
+      "pitch": "Trace a evolução do tema em marcos datados.",
+      "steps": [
+        { "id": "milestones", "type": "list", "n": 5, "label": "5 marcos históricos, com ano", "help": "Ex.: 2007 — primeiro smartphone multitoque. Primeira passada simples." },
+        { "id": "pattern", "type": "text", "label": "Que intervalo se repete entre os marcos?" },
+        { "id": "next", "type": "text", "label": "Qual o próximo passo provável?" }
+      ],
+      "task": "Verifique se os marcos sustentam o próximo passo proposto."
+    },
+    {
+      "id": "janus", "name": "Cones de Janus", "suit": "contexto", "glyph": "cones", "xp": 90,
+      "page": 81, "requires": ["curve"], "produces": "cones",
+      "pitch": "Olhe para trás e para a frente a partir de hoje.",
+      "steps": [
+        { "id": "today", "type": "text", "label": "O que marca o centro (hoje)?" },
+        { "id": "past", "type": "list", "n": 2, "label": "2 eventos passados, com data real", "help": "Use \"2005\", não \"-10\"." },
+        { "id": "future", "type": "list", "n": 2, "label": "2 eventos futuros já agendados, com data", "help": "Roadmaps e planos públicos. O resto é desejo." },
+        { "id": "certainty", "type": "scale", "label": "Quão nítido está o cone futuro?" }
+      ],
+      "tip": "Olhe para trás pelo menos o dobro do que quer olhar à frente.",
+      "task": "Diga quais eventos futuros são agendados e quais são desejos."
+    },
+    {
+      "id": "arcs", "name": "Arcos Geracionais", "suit": "contexto", "glyph": "arcs", "xp": 70,
+      "page": 94, "requires": ["topic"], "produces": "cohorts",
+      "pitch": "Mapeie gerações e as crenças que elas carregam.",
+      "steps": [
+        { "id": "cohorts", "type": "list", "n": 2, "label": "2 grupos geracionais relevantes" },
+        { "id": "shift", "type": "text", "label": "Que mudança demográfica afeta o tema?" },
+        { "id": "belief", "type": "text", "label": "Que crença cada geração carrega adiante?" }
+      ],
+      "task": "Separe o que é dado demográfico do que é suposição de comportamento."
+    },
+    {
+      "id": "future-user", "name": "Usuário Futuro", "suit": "usuario", "glyph": "persona", "xp": 90,
+      "page": 103, "requires": ["cohorts"], "produces": "persona",
+      "pitch": "Projete uma persona dez anos à frente.",
+      "steps": [
+        { "id": "who", "type": "text", "label": "Nome e papel da persona" },
+        { "id": "now", "type": "text", "label": "Um hábito dela hoje" },
+        { "id": "then", "type": "text", "label": "O mesmo hábito em +10 anos" },
+        { "id": "need", "type": "text", "label": "Uma necessidade que ainda não existe" }
+      ],
+      "task": "Teste se a necessidade futura decorre das gerações mapeadas."
+    },
+    {
+      "id": "futuretelling", "name": "Futuretelling", "suit": "usuario", "glyph": "stage", "xp": 100,
+      "page": 114, "requires": ["persona"], "produces": "scene",
+      "pitch": "Encene um minuto do futuro. Mostre, não conte.",
+      "steps": [
+        { "id": "where", "type": "text", "label": "Onde e quando a cena acontece" },
+        { "id": "script", "type": "long", "label": "Roteiro de 1 minuto", "help": "O que a persona faz, diz e sente. Ensaie em voz alta." },
+        { "id": "tension", "type": "text", "label": "Que tensão a cena resolve?" }
+      ],
+      "task": "Encontre o momento da cena que mais depende de tecnologia que ainda não existe."
+    },
+    {
+      "id": "white-spots", "name": "Pontos Brancos", "suit": "oportunidade", "glyph": "spots", "xp": 90,
+      "page": 127, "requires": ["dimensions"], "produces": "matrix",
+      "pitch": "Cruze duas dimensões e ache o quadrante vazio.",
+      "steps": [
+        { "id": "x", "type": "text", "label": "Eixo X: uma dimensão do mapa (baixo → alto)" },
+        { "id": "y", "type": "text", "label": "Eixo Y: outra dimensão" },
+        { "id": "players", "type": "list", "n": 3, "label": "3 soluções existentes e seu quadrante", "help": "Ex.: \"Produto A — X alto / Y baixo\"." },
+        { "id": "gap", "type": "choice", "label": "Onde está o espaço vazio?", "options": ["X alto · Y alto", "X alto · Y baixo", "X baixo · Y alto", "X baixo · Y baixo"] }
+      ],
+      "task": "Verifique se o quadrante vazio é oportunidade ou mercado inexistente."
+    },
+    {
+      "id": "vision", "name": "Declaração de Visão", "suit": "oportunidade", "glyph": "vision", "xp": 100,
+      "page": 203, "requires": ["matrix", "persona"], "produces": "vision",
+      "pitch": "Diga a ideia inteira em um minuto.",
+      "steps": [
+        { "id": "for", "type": "text", "label": "Para quem" },
+        { "id": "what", "type": "text", "label": "O quê, sem jargão", "help": "Troque termos vagos por um exemplo concreto." },
+        { "id": "why", "type": "text", "label": "Por que agora" },
+        { "id": "cta", "type": "text", "label": "Chamada para ação final" }
+      ],
+      "tip": "Uma visão termina com um próximo passo claro.",
+      "task": "Reescreva a visão em 2 frases e aponte jargão restante."
+    },
+    {
+      "id": "mockup", "name": "Maquete de Papel", "suit": "oportunidade", "glyph": "mockup", "xp": 90,
+      "page": 136, "requires": ["vision"], "produces": "mockup",
+      "pitch": "Construa a ideia com papel antes de código.",
+      "steps": [
+        { "id": "material", "type": "text", "label": "Material usado" },
+        { "id": "interaction", "type": "text", "label": "Qual interação o modelo mostra?" },
+        { "id": "reactions", "type": "list", "n": 3, "label": "3 reações de usuários reais" },
+        { "id": "rebuild", "type": "text", "label": "O que muda na próxima versão?" }
+      ],
+      "task": "Agrupe as reações em confirmação, objeção e surpresa."
+    },
+    {
+      "id": "darpa", "name": "Teste DARPA Hard", "suit": "oportunidade", "glyph": "darpa", "xp": 120,
+      "page": 213, "requires": ["vision"], "produces": "darpa",
+      "pitch": "Pontue a visão nos 4 critérios de inovação radical.",
+      "steps": [
+        { "id": "far", "type": "scale", "label": "Abrangente", "help": "Muda o campo em uma ordem de grandeza?" },
+        { "id": "tech", "type": "scale", "label": "Tecnicamente desafiador", "help": "Exige um passo além da ciência atual?" },
+        { "id": "multi", "type": "scale", "label": "Multidisciplinar", "help": "Exige saberes que o time ainda não tem?" },
+        { "id": "act", "type": "scale", "label": "Acionável", "help": "Dá para começar agora?" },
+        { "id": "gap", "type": "text", "label": "Maior lacuna encontrada" }
+      ],
+      "task": "Conteste a nota mais alta com um contra-argumento."
+    },
+    {
+      "id": "change-paths", "name": "Caminhos de Mudança", "suit": "acao", "glyph": "path", "xp": 90,
+      "page": 149, "requires": ["vision"], "produces": "path",
+      "pitch": "Marque as escolhas críticas entre visão e ação.",
+      "steps": [
+        { "id": "choices", "type": "list", "n": 3, "label": "As 3 escolhas críticas do caminho", "help": "São os pontos de reunião do time." },
+        { "id": "tomorrow", "type": "text", "label": "O que fazer amanhã?" },
+        { "id": "luck", "type": "text", "label": "De que sorte o caminho depende?" }
+      ],
+      "task": "Ordene as escolhas por reversibilidade e aponte a irreversível."
+    },
+    {
+      "id": "crowd-clovers", "name": "Trevo da Rede", "suit": "acao", "glyph": "clover", "xp": 70,
+      "page": 188, "requires": ["topic"], "produces": "network",
+      "pitch": "Mapeie quem na sua rede faz a ideia andar.",
+      "steps": [
+        { "id": "leaves", "type": "list", "n": 4, "label": "4 folhas: quem apoia e como" },
+        { "id": "weak", "type": "text", "label": "Folha mais fraca a reforçar" }
+      ],
+      "flag": "As 4 categorias exatas do método estão no playbook, p. 188. Confira antes de padronizar.",
+      "task": "Aponte dependência excessiva de relações informais ou formais."
+    },
+    {
+      "id": "voice-stars", "name": "Estrelas VOICE", "suit": "acao", "glyph": "star", "xp": 80,
+      "page": 178, "requires": ["network"], "produces": "team",
+      "pitch": "Meça a aptidão de liderança do time em 5 pontas.",
+      "steps": [
+        { "id": "points", "type": "list", "n": 5, "label": "5 pontas: qualidade e nota de 0 a 3", "help": "Ex.: \"V — 2\"." },
+        { "id": "focus", "type": "text", "label": "Ponta que exige atenção" }
+      ],
+      "flag": "As 5 qualidades da sigla VOICE estão no playbook, p. 178. Preencha a partir do original.",
+      "task": "Sugira quem da rede cobre a ponta mais fraca."
+    },
+    {
+      "id": "buddy-checks", "name": "Buddy Checks", "suit": "acao", "glyph": "buddies", "xp": 70,
+      "page": 168, "requires": ["team"], "produces": "buddies",
+      "pitch": "Teste parceiros pela reação deles à ideia.",
+      "steps": [
+        { "id": "pitch", "type": "text", "label": "Ideia apresentada" },
+        { "id": "reactions", "type": "list", "n": 3, "label": "Reação de 3 pessoas (nome: reação)" },
+        { "id": "pick", "type": "text", "label": "Com quem você quer trabalhar?" }
+      ],
+      "task": "Classifique cada reação por entusiasmo e por crítica útil."
+    },
+    {
+      "id": "dossier", "name": "Dossiê do Cenário", "suit": "sintese", "glyph": "seal", "xp": 200,
+      "page": null, "requires": ["darpa", "path", "matrix", "cones"], "produces": "eval",
+      "pitch": "Feche o cenário num registro avaliável pela comunidade.",
+      "steps": [
+        { "id": "verdict", "type": "text", "label": "Veredito em uma linha" },
+        { "id": "horizon", "type": "choice", "label": "Horizonte", "options": ["1–2 anos", "3–5 anos", "5–10 anos", "10+ anos"] },
+        { "id": "confidence", "type": "scale", "label": "Confiança do time no cenário" }
+      ],
+      "flag": "Carta e regra de pontuação adicionadas nesta adaptação. Não fazem parte do playbook.",
+      "task": "Faça o papel de revisor cético: liste as 3 suposições mais frágeis do dossiê."
+    }
+  ],
+  "evaluation": {
+    "schema": "scenario-eval/v1",
+    "rule": "soma DARPA (0–12): ≥10 radical · 7–9 promissor · 4–6 incremental · ≤3 reformular",
+    "bands": [
+      { "min": 10, "label": "radical" }, { "min": 7, "label": "promissor" },
+      { "min": 4, "label": "incremental" }, { "min": 0, "label": "reformular" }
+    ]
+  }
+}

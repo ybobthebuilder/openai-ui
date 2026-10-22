@@ -177,6 +177,10 @@
       "signature": "Celebration(when: boolean)",
       "description": "Bursts confetti when its condition turns true, e.g. Celebration($score == 5) at the end of a quiz."
     },
+    "ForesightCard": {
+      "signature": "ForesightCard(card: \"origem\" | \"context-map\" | \"progression\" | \"janus\" | \"arcs\" | \"future-user\" | \"futuretelling\" | \"white-spots\" | \"vision\" | \"mockup\" | \"darpa\" | \"change-paths\" | \"crowd-clovers\" | \"voice-stars\" | \"buddy-checks\" | \"dossier\", have?: string[])",
+      "description": "A playable foresight method card. card is its id. have lists the artifact types the user already produced; a missing input locks the card. The card renders its own fields and sends the answers with its submit; never rebuild those fields by hand."
+    },
     "Svg": {
       "signature": "Svg(children: Node[], viewBox: string, width?: Length, height?: Length)",
       "description": "A drawing for steps, parts, mechanisms, diagrams and layouts. Scales to its width; its shapes take expressions, so state can move them."
@@ -298,6 +302,15 @@
       "components": [
         "Flashcard",
         "Celebration"
+      ]
+    },
+    {
+      "name": "Foresight",
+      "components": [
+        "ForesightCard"
+      ],
+      "notes": [
+        "- ForesightCard(\"context-map\", [\"topic\"]) renders one playable method card; put it in the answer as is."
       ]
     },
     {
@@ -697,6 +710,9 @@
       "Celebration": {
         "$ref": "#/$defs/Celebration"
       },
+      "ForesightCard": {
+        "$ref": "#/$defs/ForesightCard"
+      },
       "Svg": {
         "$ref": "#/$defs/Svg"
       },
@@ -776,6 +792,7 @@
       "YouTube",
       "Flashcard",
       "Celebration",
+      "ForesightCard",
       "Svg",
       "Circle",
       "Ellipse",
@@ -2125,6 +2142,43 @@
         ],
         "additionalProperties": false,
         "description": "Bursts confetti when its condition turns true, e.g. Celebration($score == 5) at the end of a quiz."
+      },
+      "ForesightCard": {
+        "type": "object",
+        "properties": {
+          "card": {
+            "type": "string",
+            "enum": [
+              "origem",
+              "context-map",
+              "progression",
+              "janus",
+              "arcs",
+              "future-user",
+              "futuretelling",
+              "white-spots",
+              "vision",
+              "mockup",
+              "darpa",
+              "change-paths",
+              "crowd-clovers",
+              "voice-stars",
+              "buddy-checks",
+              "dossier"
+            ]
+          },
+          "have": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "card"
+        ],
+        "additionalProperties": false,
+        "description": "A playable foresight method card. card is its id. have lists the artifact types the user already produced; a missing input locks the card. The card renders its own fields and sends the answers with its submit; never rebuild those fields by hand."
       },
       "Svg": {
         "type": "object",

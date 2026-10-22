@@ -20,6 +20,7 @@ import {
   TextArea,
   Timer,
 } from "./components/controls";
+import { ForesightCard } from "./components/foresight-card";
 import { HtmlView } from "./components/html-view";
 import { Box, Card, Col, Divider, Form, Grid, Row, Spacer } from "./components/layout";
 import { MapMarker, MapView } from "./components/map/map";
@@ -42,6 +43,7 @@ export const library = createLibrary({
     Button, IconButton, Pressable, Input, TextArea, Select, SegmentedControl, Slider, Checkbox, RadioGroup, DatePicker, Timer, Form,
     SearchImage, Image, Icon, Table, Chart, MapView, MapMarker, YouTube,
     Flashcard, Celebration,
+    ForesightCard,
     ...svgComponents, HtmlView,
   ],
   functions,
@@ -66,6 +68,11 @@ export const library = createLibrary({
     },
     { name: "Media and data", components: ["SearchImage", "Image", "Icon", "Table", "Chart", "Map", "MapMarker", "YouTube"] },
     { name: "Play", components: ["Flashcard", "Celebration"] },
+    {
+      name: "Foresight",
+      components: ["ForesightCard"],
+      notes: ['- ForesightCard("context-map", ["topic"]) renders one playable method card; put it in the answer as is.'],
+    },
     { name: "Drawing", components: ["Svg", "G", "Circle", "Ellipse", "Rect", "Line", "Path", "Polyline", "Polygon", "SvgText", "HtmlView"] },
   ],
 });
