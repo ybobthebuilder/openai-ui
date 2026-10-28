@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "bench": "node --no-warnings scripts/bench/run.mjs",
+    "eval:foresight": "node scripts/bench/foresight-eval.mjs",
     "deploy": "openui deploy"
   },
   "dependencies": {

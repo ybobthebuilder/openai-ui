@@ -1,0 +1,33 @@
+[
+  {
+    "id": "f-start-pt",
+    "note": "Pedido em português, nada jogado: só o Ponto de Partida está liberado.",
+    "turns": [{ "role": "user", "content": "Quero avaliar o cenário de uma IA que roda localmente no prontuário do hospital, sem dado de paciente sair." }],
+    "have": [], "played": [], "expect": "next"
+  },
+  {
+    "id": "f-start-en",
+    "note": "Same rule in English, different domain.",
+    "turns": [{ "role": "user", "content": "Help me evaluate where drone delivery is heading over the next ten years." }],
+    "have": [], "played": [], "expect": "next"
+  },
+  {
+    "id": "f-after-topic",
+    "note": "O usuário jogou o Ponto de Partida; a resposta deve oferecer cartas liberadas por topic e passar have [\"topic\"].",
+    "turns": [
+      { "role": "user", "content": "Quero avaliar o cenário de uma IA que roda localmente no prontuário do hospital, sem dado de paciente sair." },
+      { "role": "assistant", "content": "root = Col([title, card])\ntitle = Title(\"Avaliar o cenário: IA local no prontuário\", \"lg\")\ncard = ForesightCard(\"origem\", [])" },
+      { "role": "user", "content": "Jogar Ponto de Partida",
+        "context": { "schema": "foresight-play/v1", "deck": "foresight-deck/v1@0.1.0", "card": "origem", "produces": "topic",
+          "data": { "start": "Externo", "topic": "Prontuário com IA que roda local, sem dado de paciente sair do hospital",
+            "sources": ["Adoção de prontuário eletrônico no SUS", "Digitalização de laudos de imagem", "Hospitais com exigência LGPD estrita"] } } }
+    ],
+    "have": ["topic"], "played": ["origem"], "expect": "next"
+  },
+  {
+    "id": "f-negative",
+    "note": "Pedido sem relação com inovação: a regra não pode sequestrar a resposta.",
+    "turns": [{ "role": "user", "content": "Plan a Sunday roast for friends, with a shopping list" }],
+    "have": [], "played": [], "expect": "none"
+  }
+]
